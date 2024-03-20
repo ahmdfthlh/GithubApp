@@ -1,5 +1,7 @@
 package com.fattah.githubapp.ui
 
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -17,10 +19,15 @@ class UserAdapter : ListAdapter<ItemsItem, UserAdapter.MyViewHolder>(DIFF_CALLBA
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val user = getItem(position)
         holder.bind(user)
+        holder.itemView.setOnClickListener{
+            val intentDetail = Intent(holder.itemView.context, DetailUserActivity::class.java)
+            intentDetail.putExtra("username",user.login)
+            holder.itemView.context.startActivity(intentDetail)
+        }
     }
     class MyViewHolder(val binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(user: ItemsItem){
-            val context = binding.root.context // Get context from the root view
+            val context = binding.root.context
             Glide.with(context)
                 .load(user.avatarUrl)
                 .into(binding.ivPicture)
