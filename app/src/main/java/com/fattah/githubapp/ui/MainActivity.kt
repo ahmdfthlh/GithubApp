@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.fattah.githubapp.R
 import com.fattah.githubapp.data.response.GithubResponse
 import com.fattah.githubapp.data.response.ItemsItem
 import com.fattah.githubapp.data.retrofit.ApiConfig
@@ -20,7 +19,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val TAG = "MainActivity"
-        private const val USERNAME = "arif"
+        private var q = "USERNAME"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,17 +27,30 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        with(binding) {
+            searchView.setupWithSearchBar(searchBar)
+            searchView
+                .editText
+                .setOnEditorActionListener { textView, actionId, event ->
+                    val temp = searchView.text
+                    searchView.hide()
+                    q = temp.toString()
+                    findListUser(q)
+                    false
+                }
+        }
+
         supportActionBar?.hide()
         val layoutManager = LinearLayoutManager(this)
         binding.rvReview.layoutManager = layoutManager
         val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
         binding.rvReview.addItemDecoration(itemDecoration)
-        findListUser()
+        findListUser(q)
     }
 
-    private fun findListUser() {
+    private fun findListUser(q: String) {
         showLoading(true)
-        val client = ApiConfig.getApiService().getUserByQueryName(USERNAME)
+        val client = ApiConfig.getApiService().getUserByQueryName(q)
         client.enqueue(object : Callback<GithubResponse> {
             override fun onResponse(
                 call: Call<GithubResponse>,
