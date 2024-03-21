@@ -1,29 +1,33 @@
 package com.fattah.githubapp.ui
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.annotation.StringRes
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.fattah.githubapp.R
 import com.fattah.githubapp.data.response.DetailUserGithubResponse
-import com.fattah.githubapp.data.response.GithubResponse
-import com.fattah.githubapp.data.response.ItemsItem
 import com.fattah.githubapp.data.retrofit.ApiConfig
 import com.fattah.githubapp.databinding.ActivityDetailUserBinding
-import com.fattah.githubapp.databinding.ActivityMainBinding
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class DetailUserActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityDetailUserBinding
+    lateinit var binding: ActivityDetailUserBinding
 
     companion object {
-        private const val TAG = "DetailUserActivity"
-        private var q = "USERNAME"
+        const val TAG = "DetailUserActivity"
+        @StringRes
+        private val TAB_TITLES = intArrayOf(
+            R.string.tab_text_1,
+            R.string.tab_text_2
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,6 +37,17 @@ class DetailUserActivity : AppCompatActivity() {
 
         val username = intent.getStringExtra("username")
         if (username != null) {
+
+            val sectionsPagerAdapter = SectionsPagerAdapter(this)
+            sectionsPagerAdapter.username = username
+            val viewPager: ViewPager2 = findViewById(R.id.view_pager)
+            viewPager.adapter = sectionsPagerAdapter
+            val tabs: TabLayout = findViewById(R.id.tabs)
+            TabLayoutMediator(tabs, viewPager) { tab, position ->
+                tab.text = resources.getString(TAB_TITLES[position])
+            }.attach()
+            supportActionBar?.elevation = 0f
+
             findDetailUser(username)
         }
     }
@@ -62,6 +77,7 @@ class DetailUserActivity : AppCompatActivity() {
         })
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setDetailUserData(user : DetailUserGithubResponse ) {
         Glide.with(this)
             .load(user.avatarUrl)

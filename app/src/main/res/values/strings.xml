@@ -5,4 +5,9 @@
     <string name="username">ahmdfthlh</string>
     <string name="followers">10 Followers</string>
     <string name="following">2 Following</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tab_text_1">Followers</string>
+    <string name="tab_text_2">Following</string>
+    <string name="content_tab_home">Ini Followers</string>
+    <string name="content_tab_text">This is Tab %1$d</string>
 </resources>
