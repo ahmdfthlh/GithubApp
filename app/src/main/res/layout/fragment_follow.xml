@@ -21,8 +21,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvUsers"
-        android:layout_width="391dp"
-        android:layout_height="438dp"
+        android:layout_width="382dp"
+        android:layout_height="0dp"
         android:overScrollMode="never"
         android:scrollbarSize="0dp"
         app:layout_constraintEnd_toEndOf="parent"

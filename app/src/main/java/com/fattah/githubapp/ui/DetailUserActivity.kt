@@ -3,26 +3,21 @@ package com.fattah.githubapp.ui
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.annotation.StringRes
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.fattah.githubapp.R
 import com.fattah.githubapp.data.response.DetailUserGithubResponse
-import com.fattah.githubapp.data.retrofit.ApiConfig
 import com.fattah.githubapp.databinding.ActivityDetailUserBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class DetailUserActivity : AppCompatActivity() {
     lateinit var binding: ActivityDetailUserBinding
 
     companion object {
-        const val TAG = "DetailUserActivity"
         @StringRes
         private val TAB_TITLES = intArrayOf(
             R.string.tab_text_1,
@@ -48,33 +43,18 @@ class DetailUserActivity : AppCompatActivity() {
             }.attach()
             supportActionBar?.elevation = 0f
 
-            findDetailUser(username)
-        }
-    }
+            val detailViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(DetailViewModel::class.java)
 
-    private fun findDetailUser(username: String) {
-        showLoading(true)
-        val client = ApiConfig.getApiService().getDetailUser(username)
-        client.enqueue(object : Callback<DetailUserGithubResponse> {
-            override fun onResponse(
-                call: Call<DetailUserGithubResponse>,
-                response: Response<DetailUserGithubResponse>
-            ) {
-                showLoading(false)
-                if (response.isSuccessful) {
-                    val responseBody = response.body()
-                    if (responseBody != null) {
-                        setDetailUserData(responseBody)
-                    }
-                } else {
-                    Log.e(TAG, "onFailure: ${response.message()}")
-                }
+            detailViewModel.findDetailUser(username)
+
+            detailViewModel.detailUser.observe(this) { detailUser ->
+                setDetailUserData(detailUser)
             }
-            override fun onFailure(call: Call<DetailUserGithubResponse>, t: Throwable) {
-                showLoading(false)
-                Log.e(TAG, "onFailure: ${t.message}")
+
+            detailViewModel.isLoading.observe(this) {
+                showLoading(it)
             }
-        })
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -89,10 +69,6 @@ class DetailUserActivity : AppCompatActivity() {
     }
 
     private fun showLoading(isLoading: Boolean) {
-        if (isLoading) {
-            binding.progressBar.visibility = View.VISIBLE
-        } else {
-            binding.progressBar.visibility = View.GONE
-        }
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 }

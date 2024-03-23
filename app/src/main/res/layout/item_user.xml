@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/dark_navy">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivPicture"
@@ -22,9 +23,9 @@
 
     <TextView
         android:id="@+id/tvItem"
-        android:layout_width="289dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="26dp"
+        android:layout_width="307dp"
+        android:layout_height="59dp"
+        android:layout_marginStart="16dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="6dp"
         android:gravity="center_vertical"
@@ -34,10 +35,12 @@
         android:textSize="17sp"
         app:layout_constraintBottom_toBottomOf="@+id/ivPicture"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.818"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/ivPicture"
         app:layout_constraintTop_toTopOf="@+id/ivPicture"
-        tools:text="User" />
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="User"
+        android:textColor="@color/white"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
