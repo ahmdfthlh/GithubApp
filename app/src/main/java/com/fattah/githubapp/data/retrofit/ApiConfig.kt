@@ -12,13 +12,13 @@ class ApiConfig {
         fun getApiService(): ApiService {
             val loggingInterceptor =
                 HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-            val authInterceptor = Interceptor { chain ->
-                val req = chain.request()
-                val requestHeaders = req.newBuilder()
-                    .addHeader("Authorization", "token ${BuildConfig.API_KEY}")
-                    .build()
-                chain.proceed(requestHeaders)
-            }
+//            val authInterceptor = Interceptor { chain ->
+//                val req = chain.request()
+//                val requestHeaders = req.newBuilder()
+//                    .addHeader("Authorization", "token ${BuildConfig.API_KEY}")
+//                    .build()
+//                chain.proceed(requestHeaders)
+//            }
             val client = OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
                 .build()
