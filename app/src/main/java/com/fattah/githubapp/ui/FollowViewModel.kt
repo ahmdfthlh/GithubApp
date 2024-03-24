@@ -22,7 +22,7 @@ class FollowViewModel : ViewModel() {
         private const val TAG = "FollowViewModel"
     }
 
-     fun findListUser(q: String, index: Int) {
+    fun findListUser(q: String, index: Int) {
         _isLoading.value = true
         val client = if (index == 1) {
             ApiConfig.getApiService().getFollowersOfUsername(q)

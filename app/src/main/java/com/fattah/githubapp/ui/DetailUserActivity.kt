@@ -18,6 +18,7 @@ class DetailUserActivity : AppCompatActivity() {
     lateinit var binding: ActivityDetailUserBinding
 
     companion object {
+        const val TAG = "DetailUserActivity"
         @StringRes
         private val TAB_TITLES = intArrayOf(
             R.string.tab_text_1,

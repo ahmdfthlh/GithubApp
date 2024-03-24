@@ -22,8 +22,8 @@ class DetailViewModel : ViewModel() {
         private const val TAG = "DetailViewModel"
     }
 
-     fun findDetailUser(username: String) {
-         _isLoading.value = true
+    fun findDetailUser(username: String) {
+        _isLoading.value = true
         val client = ApiConfig.getApiService().getDetailUser(username)
         client.enqueue(object : Callback<DetailUserGithubResponse> {
             override fun onResponse(
